@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 use strict;
 use IO::Socket::INET;
-use IO::Socket::SSL;
+#use IO::Socket::SSL;
 use Getopt::Long;
 use Config;
 

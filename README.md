@@ -1,4 +1,6 @@
 # Roger-skyline-1
+https://www.8host.com/blog/sozdanie-samopodpisannogo-ssl-sertifikata-dlya-nginx-v-ubuntu-16-04/
+https://www.8host.com/blog/ustanovka-nginx-v-ubuntu-16-04/
 http://jodies.de/ipcalc?host=192.168.56.2&mask1=30&mask2=24
 https://ip-calculator.ru/#!ip=192.168.56.2/30
 http://www.subnet-calculator.com/
